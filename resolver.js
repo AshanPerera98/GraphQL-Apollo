@@ -42,4 +42,19 @@ export const resolvers = {
       return db.games.find((game) => game.id === parent.game_id);
     },
   },
+
+  Mutation: {
+    addGame(parent, args, context) {
+      let newGame = {
+        ...args.game,
+        id: Math.floor(Math.random() * 1000).toString(),
+      };
+
+      db.games.push(newGame);
+      return newGame;
+    },
+    deleteGame(parent, args, context) {
+      return db.games.filter((game) => game.id !== args.id);
+    },
+  },
 };
