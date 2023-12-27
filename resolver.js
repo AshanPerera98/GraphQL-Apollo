@@ -54,7 +54,20 @@ export const resolvers = {
       return newGame;
     },
     deleteGame(parent, args, context) {
-      return db.games.filter((game) => game.id !== args.id);
+      db.games = db.games.filter((game) => game.id !== args.id);
+
+      return db.games;
+    },
+    updateGame(parent, args, context) {
+      db.games = db.games.map((game) => {
+        if (game.id === args.id) {
+          return { ...game, ...args.changes };
+        }
+
+        return game;
+      });
+
+      return db.games.find((game) => game.id === args.id);
     },
   },
 };
